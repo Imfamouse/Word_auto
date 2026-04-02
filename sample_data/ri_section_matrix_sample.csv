@@ -1,0 +1,6 @@
+document_id,section_code,section_title,mandatory_flag,condition_rule,present_flag,comment
+RI-2026-001,RI-01,Scope,Yes,,Yes,
+RI-2026-001,RI-02,References,Yes,,Yes,
+RI-2026-001,RI-03,Tools and materials,Yes,,Yes,
+RI-2026-001,RI-04,Procedure,Yes,,Yes,
+RI-2026-001,RI-05,Post-repair inspection,Yes,if structural element touched,Yes,
