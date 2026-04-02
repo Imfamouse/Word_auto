@@ -43,59 +43,75 @@ Public Function ReadCardFromForm() As clsDocumentCard
     End If
 
     Set card = New clsDocumentCard
-    card.DocumentID = GetControlText("tb_document_id")
-    card.DocumentType = GetControlText("tb_document_type")
-    card.Title = GetControlText("tb_title")
-    card.AircraftModel = GetControlText("tb_aircraft_model")
-    card.AircraftNumber = GetControlText("tb_aircraft_number")
-    card.MSN = GetControlText("tb_msn")
-    card.AssemblyNumber = GetControlText("tb_assembly_number")
-    card.PartNumber = GetControlText("tb_part_number")
-    card.ComponentName = GetControlText("tb_component_name")
-    card.Applicability = GetControlText("tb_applicability")
-    card.Revision = GetControlText("tb_revision")
-    card.DocDate = GetControlText("tb_date")
-    card.Author = GetControlText("tb_author")
-    card.Checker = GetControlText("tb_checker")
-    card.Approver = GetControlText("tb_approver")
-    card.RelatedAnalysisNumber = GetControlText("tb_related_analysis_number")
+    card.DocumentID               = GetControlText("tb_document_id")
+    card.DocumentType             = GetControlText("tb_document_type")
+    card.Title                    = GetControlText("tb_title")
+    card.AircraftModel            = GetControlText("tb_aircraft_model")
+    card.AircraftVariant          = GetControlText("tb_aircraft_variant")
+    card.AircraftNumber           = GetControlText("tb_aircraft_number")
+    card.MSN                      = GetControlText("tb_msn")
+    card.AircraftManufactureDate  = GetControlText("tb_aircraft_manufacture_date")
+    card.AircraftHours            = GetControlText("tb_aircraft_hours")
+    card.AircraftCycles           = GetControlText("tb_aircraft_cycles")
+    card.AssemblyNumber           = GetControlText("tb_assembly_number")
+    card.PartNumber               = GetControlText("tb_part_number")
+    card.ComponentName            = GetControlText("tb_component_name")
+    card.ComponentSN              = GetControlText("tb_component_sn")
+    card.ComponentHours           = GetControlText("tb_component_hours")
+    card.ComponentCycles          = GetControlText("tb_component_cycles")
+    card.ComponentManufactureDate = GetControlText("tb_component_manufacture_date")
+    card.Applicability            = GetControlText("tb_applicability")
+    card.Revision                 = GetControlText("tb_revision")
+    card.DocDate                  = GetControlText("tb_date")
+    card.Author                   = GetControlText("tb_author")
+    card.Checker                  = GetControlText("tb_checker")
+    card.Approver                 = GetControlText("tb_approver")
+    card.RelatedAnalysisNumber    = GetControlText("tb_related_analysis_number")
     card.RelatedInstructionNumber = GetControlText("tb_related_instruction_number")
-    card.References = GetControlText("tb_references")
-    card.Attachments = GetControlText("tb_attachments")
-    card.Remarks = GetControlText("tb_remarks")
-    card.Status = GetControlText("tb_status")
-    card.WordDocPath = GetControlText("tb_word_doc_path")
-    card.PdfPath = GetControlText("tb_pdf_path")
+    card.References               = GetControlText("tb_references")
+    card.Attachments              = GetControlText("tb_attachments")
+    card.Remarks                  = GetControlText("tb_remarks")
+    card.Status                   = GetControlText("tb_status")
+    card.WordDocPath              = GetControlText("tb_word_doc_path")
+    card.PdfPath                  = GetControlText("tb_pdf_path")
 
     Set ReadCardFromForm = card
 End Function
 
 Private Sub BuildFields()
-    ReDim mFields(1 To 23)
+    ReDim mFields(1 To 31)
 
-    SetField 1, "document_id", "Document ID"
-    SetField 2, "document_type", "Document Type"
-    SetField 3, "title", "Title"
-    SetField 4, "aircraft_model", "Aircraft Model"
-    SetField 5, "aircraft_number", "Aircraft Number"
-    SetField 6, "msn", "MSN"
-    SetField 7, "assembly_number", "Assembly Number"
-    SetField 8, "part_number", "Part Number"
-    SetField 9, "component_name", "Component Name"
-    SetField 10, "applicability", "Applicability"
-    SetField 11, "revision", "Revision"
-    SetField 12, "date", "Date"
-    SetField 13, "author", "Author"
-    SetField 14, "checker", "Checker"
-    SetField 15, "approver", "Approver"
-    SetField 16, "related_analysis_number", "Related Analysis #"
-    SetField 17, "related_instruction_number", "Related Instruction #"
-    SetField 18, "references", "References"
-    SetField 19, "attachments", "Attachments"
-    SetField 20, "remarks", "Remarks"
-    SetField 21, "status", "Status"
-    SetField 22, "word_doc_path", "Word Doc Path"
-    SetField 23, "pdf_path", "PDF Path"
+    SetField 1,  "document_id",               "Document ID"
+    SetField 2,  "document_type",             "Document Type"
+    SetField 3,  "title",                     "Title"
+    SetField 4,  "aircraft_model",            "Aircraft Model (Type)"
+    SetField 5,  "aircraft_variant",          "Aircraft Variant/Model"
+    SetField 6,  "aircraft_number",           "Aircraft Reg. Number"
+    SetField 7,  "msn",                       "MSN"
+    SetField 8,  "aircraft_manufacture_date", "Aircraft Manuf. Date"
+    SetField 9,  "aircraft_hours",            "Aircraft Hours (FH)"
+    SetField 10, "aircraft_cycles",           "Aircraft Cycles (FC)"
+    SetField 11, "assembly_number",           "Assembly Number"
+    SetField 12, "part_number",               "Part Number"
+    SetField 13, "component_name",            "Component Name"
+    SetField 14, "component_sn",              "Component S/N"
+    SetField 15, "component_hours",           "Component Hours (FH)"
+    SetField 16, "component_cycles",          "Component Cycles (FC)"
+    SetField 17, "component_manufacture_date","Component Manuf. Date"
+    SetField 18, "applicability",             "Applicability"
+    SetField 19, "revision",                  "Revision"
+    SetField 20, "date",                      "Date"
+    SetField 21, "author",                    "Author"
+    SetField 22, "checker",                   "Checker"
+    SetField 23, "approver",                  "Approver"
+    SetField 24, "related_analysis_number",   "Related Analysis #"
+    SetField 25, "related_instruction_number","Related Instruction #"
+    SetField 26, "references",                "References"
+    SetField 27, "attachments",               "Attachments"
+    SetField 28, "remarks",                   "Remarks"
+    SetField 29, "status",                    "Status"
+    SetField 30, "word_doc_path",             "Word Doc Path"
+    SetField 31, "pdf_path",                  "PDF Path"
 End Sub
 
 Private Sub SetField(ByVal idx As Long, ByVal fieldKey As String, ByVal fieldCaption As String)
@@ -105,10 +121,10 @@ End Sub
 
 Private Sub BuildDynamicLayout()
     Const LEFT_LABEL As Single = 12
-    Const LEFT_INPUT As Single = 170
+    Const LEFT_INPUT As Single = 200
     Const TOP_START As Single = 12
     Const ROW_H As Single = 24
-    Const INPUT_W As Single = 650
+    Const INPUT_W As Single = 620
     Const BTN_TOP_GAP As Single = 10
 
     Dim i As Long
@@ -124,7 +140,7 @@ Private Sub BuildDynamicLayout()
         lbl.Caption = mFields(i).Caption
         lbl.Left = LEFT_LABEL
         lbl.Top = topPos + 3
-        lbl.Width = 150
+        lbl.Width = 180
 
         Set tb = Me.Controls.Add("Forms.TextBox.1", "tb_" & mFields(i).Key, True)
         tb.Left = LEFT_INPUT
@@ -280,7 +296,7 @@ Private Function BuildFieldHelpText() As String
     Next i
 
     textOut = textOut & vbCrLf & "Buttons:" & vbCrLf
-    textOut = textOut & "- Save Card: save card to doc_cards" & vbCrLf
+    textOut = textOut & "- Save Card: save card to doc_cards sheet" & vbCrLf
     textOut = textOut & "- Create DOCX: create Word document from template" & vbCrLf
     textOut = textOut & "- Validate: run checks and open report" & vbCrLf
     textOut = textOut & "- Export PDF: export current DOCX to PDF" & vbCrLf
@@ -291,37 +307,47 @@ End Function
 
 Private Function GetFieldHint(ByVal fieldKey As String) As String
     Select Case fieldKey
-        Case "document_id": GetFieldHint = "Unique document number, e.g. RI-2026-001"
-        Case "document_type": GetFieldHint = "Repair Instruction or Engineering Analysis"
-        Case "title": GetFieldHint = "Short technical title"
-        Case "aircraft_model": GetFieldHint = "Aircraft family/model, e.g. A320"
-        Case "aircraft_number": GetFieldHint = "Tail number"
-        Case "msn": GetFieldHint = "Manufacturer serial number"
-        Case "assembly_number": GetFieldHint = "Assembly identifier"
-        Case "part_number": GetFieldHint = "Part number"
-        Case "component_name": GetFieldHint = "Component common name"
-        Case "applicability": GetFieldHint = "Applicability limits/conditions"
-        Case "revision": GetFieldHint = "Revision index/letter"
-        Case "date": GetFieldHint = "Document date YYYY-MM-DD"
-        Case "author": GetFieldHint = "Engineer author"
-        Case "checker": GetFieldHint = "Checker name"
-        Case "approver": GetFieldHint = "Approver name"
-        Case "related_analysis_number": GetFieldHint = "Linked EA document number"
-        Case "related_instruction_number": GetFieldHint = "Linked RI document number"
-        Case "references": GetFieldHint = "Referenced standards/manuals"
-        Case "attachments": GetFieldHint = "Attachment file names"
-        Case "remarks": GetFieldHint = "Operational comments"
-        Case "status": GetFieldHint = "Draft, In Review, Released"
-        Case "word_doc_path": GetFieldHint = "Generated DOCX full path"
-        Case "pdf_path": GetFieldHint = "Generated PDF full path"
-        Case Else: GetFieldHint = ""
+        Case "document_id":               GetFieldHint = "Unique document number, e.g. RI-2026-001"
+        Case "document_type":             GetFieldHint = "Repair Instruction or Engineering Analysis"
+        Case "title":                     GetFieldHint = "Short technical title of the repair"
+        Case "aircraft_model":            GetFieldHint = "Aircraft type, e.g. RRJ-95, A320"
+        Case "aircraft_variant":          GetFieldHint = "Aircraft model/variant, e.g. RRJ-95B100"
+        Case "aircraft_number":           GetFieldHint = "Registration number, e.g. RA-89001"
+        Case "msn":                       GetFieldHint = "Manufacturer serial number"
+        Case "aircraft_manufacture_date": GetFieldHint = "Aircraft manufacture date, e.g. 2015-06-01"
+        Case "aircraft_hours":            GetFieldHint = "Total aircraft flight hours"
+        Case "aircraft_cycles":           GetFieldHint = "Total aircraft flight cycles"
+        Case "assembly_number":           GetFieldHint = "Component assembly number (top-level p/n)"
+        Case "part_number":               GetFieldHint = "Damaged part number"
+        Case "component_name":            GetFieldHint = "Component name, e.g. PIVOTING DOOR RH"
+        Case "component_sn":              GetFieldHint = "Component serial number"
+        Case "component_hours":           GetFieldHint = "Component total flight hours"
+        Case "component_cycles":          GetFieldHint = "Component total flight cycles"
+        Case "component_manufacture_date":GetFieldHint = "Component manufacture date"
+        Case "applicability":             GetFieldHint = "Applicability limits / conditions"
+        Case "revision":                  GetFieldHint = "Revision index, use – for initial issue"
+        Case "date":                      GetFieldHint = "Document date DD.MM.YYYY"
+        Case "author":                    GetFieldHint = "Engineer author (Last I.O.)"
+        Case "checker":                   GetFieldHint = "Checker name"
+        Case "approver":                  GetFieldHint = "Approver name"
+        Case "related_analysis_number":   GetFieldHint = "Linked EA document number"
+        Case "related_instruction_number":GetFieldHint = "Linked RI document number"
+        Case "references":                GetFieldHint = "Referenced documents (SDR, CMM, AMM...)"
+        Case "attachments":               GetFieldHint = "Attached files list"
+        Case "remarks":                   GetFieldHint = "Operational comments"
+        Case "status":                    GetFieldHint = "Draft / In Review / Released"
+        Case "word_doc_path":             GetFieldHint = "Generated DOCX path (auto-filled)"
+        Case "pdf_path":                  GetFieldHint = "Generated PDF path (auto-filled)"
+        Case Else:                        GetFieldHint = ""
     End Select
 End Function
 
 Private Sub LoadActiveRowIntoControls()
     Dim ws As Worksheet
     Dim rowIdx As Long
+    Dim colMap As Object
     Dim i As Long
+    Dim colIdx As Long
 
     On Error GoTo SafeExit
 
@@ -329,8 +355,24 @@ Private Sub LoadActiveRowIntoControls()
     rowIdx = ActiveCell.Row
     If rowIdx < 2 Then rowIdx = 2
 
+    ' Build column index map from header row (column name -> column index)
+    Set colMap = CreateObject("Scripting.Dictionary")
+    Dim lastCol As Long
+    lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+    For i = 1 To lastCol
+        Dim hdr As String
+        hdr = Trim$(LCase$(CStr(ws.Cells(1, i).Value)))
+        If Len(hdr) > 0 Then colMap(hdr) = i
+    Next i
+
+    ' Load each field by name
     For i = 1 To UBound(mFields)
-        SetControlText "tb_" & mFields(i).Key, CStr(ws.Cells(rowIdx, i).Value)
+        Dim key As String
+        key = mFields(i).Key
+        If colMap.Exists(key) Then
+            colIdx = colMap(key)
+            SetControlText "tb_" & key, CStr(ws.Cells(rowIdx, colIdx).Value)
+        End If
     Next i
 
 SafeExit:
