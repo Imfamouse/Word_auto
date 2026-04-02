@@ -94,3 +94,5 @@ htmlcov/
 # word/_generated/
 # excel/_working/
 naming_rules.xlsx
+# VBA form binary artifacts (not supported by current PR platform)
+*.frx
