@@ -1,0 +1,96 @@
+# =========================
+# OS / Explorer junk
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# Office temporary / lock files
+# =========================
+~$*.docx
+~$*.docm
+~$*.dotx
+~$*.dotm
+~$*.xlsx
+~$*.xlsm
+~$*.xltx
+~$*.xltm
+~$*.pptx
+~$*.pptm
+*.tmp
+*.temp
+*.bak
+*.wbk
+*.xlk
+
+# =========================
+# Excel / Word autosave and recovery
+# =========================
+*.asd
+*.autosave
+
+# =========================
+# Exported / generated output
+# Keep source templates and exported VBA code under version control.
+# Ignore only runtime-generated files.
+# =========================
+out/
+build/
+dist/
+release/
+exports/
+artifacts/
+*.pdf
+
+# Uncomment if generated documents should not be versioned:
+# generated/
+# *.docx
+# *.docm
+
+# =========================
+# Logs / reports
+# =========================
+*.log
+logs/
+
+# =========================
+# Python / helper tooling
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# =========================
+# VS Code / IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Local config / secrets
+# =========================
+.env
+.env.*
+local.settings.json
+secrets/
+
+# =========================
+# Test / debug leftovers
+# =========================
+coverage/
+htmlcov/
+.pytest_cache/
+
+# =========================
+# Optional: ignore local Office working copies
+# Uncomment if needed
+# =========================
+# word/_generated/
+# excel/_working/
+naming_rules.xlsx
