@@ -3,8 +3,9 @@ Option Explicit
 
 Public Sub AppInitialize()
     On Error GoTo ErrHandler
+    EnsureWorkbookStructure
     EnsureRequiredConfig
-    LogAction "", "AppInitialize", "OK", "Configuration validated"
+    LogAction "", "AppInitialize", "OK", "Workbook structure and configuration validated"
     MsgBox "Initialization completed", vbInformation
     Exit Sub
 

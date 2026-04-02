@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.UserForm frmDocumentCard
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmDocumentCard
    Caption         =   "Document Card"
    ClientHeight    =   3000
    ClientLeft      =   120

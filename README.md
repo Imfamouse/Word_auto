@@ -12,6 +12,7 @@
 
 - `docs/architecture.md` — архитектура (этапы 1–4).
 - `docs/user_guide.md` — инструкция пользователя.
+- `docs/forms_import.md` — инструкция по восстановлению UserForm в условиях запрета бинарных `.frx`.
 - `docs/developer_guide.md` — инструкция разработчика и расширения.
 - `docs/test_plan.md` — тест-план и чек-лист приёмки.
 - `docs/limitations_and_roadmap.md` — ограничения и направления развития.
@@ -23,9 +24,9 @@
 
 1. Создайте Excel-книгу `DocumentControl.xlsm`.
 2. Импортируйте файлы из `vba/modules`, `vba/classes`, `vba/forms` в VBA Editor.
-3. Создайте листы согласно `docs/architecture.md`.
+3. Запустите `modMain.AppInitialize` — макрос автоматически создаст обязательные листы и заголовки.
 4. Скопируйте файлы из `templates/` в рабочую папку шаблонов.
-5. Запустите `modMain.AppInitialize`, затем `modMain.OpenDocumentCard`.
+5. Откройте `modMain.OpenDocumentCard` и начните работу с карточкой.
 
 ## Совместимость
 

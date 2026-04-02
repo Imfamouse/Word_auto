@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.UserForm frmValidationReport
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmValidationReport
    Caption         =   "Validation Report"
    ClientHeight    =   3000
    ClientLeft      =   120

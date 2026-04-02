@@ -3,10 +3,11 @@
 ## Сценарий 1: Создание документа
 
 1. Откройте `DocumentControl.xlsm`.
-2. Нажмите кнопку **Новая карточка** (`modMain.OpenDocumentCard`).
-3. Заполните реквизиты документа.
-4. Выберите `document_type` (Repair Instruction или Engineering Analysis).
-5. Нажмите **Создать Word из шаблона** (`modMain.CreateWordDocument`).
+2. Один раз запустите `modMain.AppInitialize` (создаст необходимые листы, заголовки и базовые справочники).
+3. Нажмите кнопку **Новая карточка** (`modMain.OpenDocumentCard`).
+4. Заполните реквизиты документа.
+5. Выберите `document_type` (Repair Instruction или Engineering Analysis).
+6. Нажмите **Создать Word из шаблона** (`modMain.CreateWordDocument`).
 
 ## Сценарий 2: Ручное написание инженерного содержания
 

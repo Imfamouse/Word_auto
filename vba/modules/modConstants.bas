@@ -4,6 +4,11 @@ Option Explicit
 Public Const APP_NAME As String = "WordAuto"
 
 Public Const SHEET_DOC_CARDS As String = "doc_cards"
+Public Const SHEET_UI_DASHBOARD As String = "ui_dashboard"
+Public Const SHEET_REF_DOCUMENT_TYPES As String = "ref_document_types"
+Public Const SHEET_REF_STATUSES As String = "ref_statuses"
+Public Const SHEET_REF_USERS As String = "ref_users"
+Public Const SHEET_RULES_FILENAME As String = "rules_filename"
 Public Const SHEET_CFG_APP As String = "cfg_app"
 Public Const SHEET_REF_TEMPLATES As String = "ref_templates"
 Public Const SHEET_REQUIRED_FIELDS As String = "rules_required_fields"
