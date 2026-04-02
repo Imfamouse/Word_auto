@@ -21,6 +21,11 @@ End Type
 
 Private mFields() As TField
 Private mUiBuilt As Boolean
+Private WithEvents mBtnSave As MSForms.CommandButton
+Private WithEvents mBtnCreateDoc As MSForms.CommandButton
+Private WithEvents mBtnValidate As MSForms.CommandButton
+Private WithEvents mBtnExportPdf As MSForms.CommandButton
+Private WithEvents mBtnClose As MSForms.CommandButton
 
 Private Sub UserForm_Initialize()
     BuildFields
@@ -103,11 +108,13 @@ Private Sub BuildDynamicLayout()
     Const TOP_START As Single = 12
     Const ROW_H As Single = 24
     Const INPUT_W As Single = 650
+    Const BTN_TOP_GAP As Single = 10
 
     Dim i As Long
     Dim lbl As MSForms.Label
     Dim tb As MSForms.TextBox
     Dim topPos As Single
+    Dim btnTop As Single
 
     For i = 1 To UBound(mFields)
         topPos = TOP_START + (i - 1) * ROW_H
@@ -125,10 +132,131 @@ Private Sub BuildDynamicLayout()
         tb.Height = 18
     Next i
 
+    btnTop = TOP_START + UBound(mFields) * ROW_H + BTN_TOP_GAP
+
+    Set mBtnSave = Me.Controls.Add("Forms.CommandButton.1", "btn_save", True)
+    mBtnSave.Caption = "Save Card"
+    mBtnSave.Left = LEFT_INPUT
+    mBtnSave.Top = btnTop
+    mBtnSave.Width = 100
+
+    Set mBtnCreateDoc = Me.Controls.Add("Forms.CommandButton.1", "btn_create_doc", True)
+    mBtnCreateDoc.Caption = "Create DOCX"
+    mBtnCreateDoc.Left = LEFT_INPUT + 110
+    mBtnCreateDoc.Top = btnTop
+    mBtnCreateDoc.Width = 100
+
+    Set mBtnValidate = Me.Controls.Add("Forms.CommandButton.1", "btn_validate", True)
+    mBtnValidate.Caption = "Validate"
+    mBtnValidate.Left = LEFT_INPUT + 220
+    mBtnValidate.Top = btnTop
+    mBtnValidate.Width = 100
+
+    Set mBtnExportPdf = Me.Controls.Add("Forms.CommandButton.1", "btn_export_pdf", True)
+    mBtnExportPdf.Caption = "Export PDF"
+    mBtnExportPdf.Left = LEFT_INPUT + 330
+    mBtnExportPdf.Top = btnTop
+    mBtnExportPdf.Width = 100
+
+    Set mBtnClose = Me.Controls.Add("Forms.CommandButton.1", "btn_close", True)
+    mBtnClose.Caption = "Close"
+    mBtnClose.Left = LEFT_INPUT + 440
+    mBtnClose.Top = btnTop
+    mBtnClose.Width = 100
+
     Me.Caption = "Document Card"
     Me.Width = LEFT_INPUT + INPUT_W + 24
-    Me.Height = TOP_START + UBound(mFields) * ROW_H + 42
+    Me.Height = btnTop + 52
     mUiBuilt = True
+End Sub
+
+Private Sub mBtnSave_Click()
+    Dim card As clsDocumentCard
+
+    On Error GoTo ErrHandler
+    Set card = ReadCardFromForm()
+    SaveDocumentCard card
+    LogAction card.DocumentID, "SaveCard", "OK", "Card saved from form"
+    MsgBox "Document card saved", vbInformation
+    Exit Sub
+
+ErrHandler:
+    LogAction "", "SaveCard", "ERROR", Err.Description
+    MsgBox "Save failed: " & Err.Description, vbCritical
+End Sub
+
+Private Sub mBtnCreateDoc_Click()
+    Dim card As clsDocumentCard
+    Dim docPath As String
+
+    On Error GoTo ErrHandler
+    Set card = ReadCardFromForm()
+    SaveDocumentCard card
+
+    docPath = CreateDocumentFromTemplate(card)
+    If Len(docPath) = 0 Then Err.Raise vbObjectError + 1601, "mBtnCreateDoc_Click", "DOCX creation failed"
+
+    card.WordDocPath = docPath
+    SaveDocumentCard card
+    SetControlText "tb_word_doc_path", docPath
+
+    LogAction card.DocumentID, "CreateWordDocument", "OK", docPath
+    MsgBox "DOCX created: " & docPath, vbInformation
+    Exit Sub
+
+ErrHandler:
+    LogAction "", "CreateWordDocument", "ERROR", Err.Description
+    MsgBox "Create DOCX failed: " & Err.Description, vbCritical
+End Sub
+
+Private Sub mBtnValidate_Click()
+    Dim card As clsDocumentCard
+    Dim issues As Collection
+
+    On Error GoTo ErrHandler
+
+    Set card = ReadCardFromForm()
+    Set issues = ValidateBeforeRelease(card)
+
+    PublishValidationReport card.DocumentID, issues
+    frmValidationReport.LoadIssues card.DocumentID
+    frmValidationReport.Show
+
+    LogAction card.DocumentID, "ValidateCurrentDocument", "OK", "Issues: " & CStr(issues.Count)
+    Exit Sub
+
+ErrHandler:
+    LogAction "", "ValidateCurrentDocument", "ERROR", Err.Description
+    MsgBox "Validation failed: " & Err.Description, vbCritical
+End Sub
+
+Private Sub mBtnExportPdf_Click()
+    Dim card As clsDocumentCard
+    Dim pdfPath As String
+
+    On Error GoTo ErrHandler
+
+    Set card = ReadCardFromForm()
+    If Len(card.WordDocPath) = 0 Then Err.Raise vbObjectError + 1602, "mBtnExportPdf_Click", "Word Doc Path is empty"
+
+    pdfPath = ExportDocumentToPdf(card.WordDocPath)
+    If Len(pdfPath) = 0 Then Err.Raise vbObjectError + 1603, "mBtnExportPdf_Click", "PDF export failed"
+
+    card.PdfPath = pdfPath
+    SaveDocumentCard card
+    SetControlText "tb_pdf_path", pdfPath
+
+    LogAction card.DocumentID, "ExportCurrentToPdf", "OK", pdfPath
+    MsgBox "PDF exported: " & pdfPath, vbInformation
+    Exit Sub
+
+ErrHandler:
+    LogAction "", "ExportCurrentToPdf", "ERROR", Err.Description
+    MsgBox "Export PDF failed: " & Err.Description, vbCritical
+End Sub
+
+Private Sub mBtnClose_Click()
+    Unload Me
 End Sub
 
 Private Sub LoadActiveRowIntoControls()
