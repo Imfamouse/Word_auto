@@ -4,9 +4,14 @@ Option Explicit
 Public Sub EnsureWorkbookStructure()
     EnsureSheetWithHeaders SHEET_UI_DASHBOARD, Array("action", "description", "macro_name")
     EnsureSheetWithHeaders SHEET_DOC_CARDS, Array( _
-        "document_id", "document_type", "title", "aircraft_model", "aircraft_number", "msn", "assembly_number", _
-        "part_number", "component_name", "applicability", "revision", "date", "author", "checker", "approver", _
-        "related_analysis_number", "related_instruction_number", "references", "attachments", "remarks", "status", _
+        "document_id", "document_type", "title", _
+        "aircraft_model", "aircraft_variant", "aircraft_number", "msn", _
+        "aircraft_manufacture_date", "aircraft_hours", "aircraft_cycles", _
+        "assembly_number", "part_number", "component_name", _
+        "component_sn", "component_hours", "component_cycles", "component_manufacture_date", _
+        "applicability", "revision", "date", "author", "checker", "approver", _
+        "related_analysis_number", "related_instruction_number", _
+        "references", "attachments", "remarks", "status", _
         "word_doc_path", "pdf_path")
     EnsureSheetWithHeaders SHEET_CFG_APP, Array("key", "value")
     EnsureSheetWithHeaders SHEET_REF_DOCUMENT_TYPES, Array("document_type", "description")

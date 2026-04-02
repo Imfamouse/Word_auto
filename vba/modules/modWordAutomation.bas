@@ -22,11 +22,11 @@ Public Function CreateDocumentFromTemplate(ByVal card As clsDocumentCard) As Str
     Set wordApp = CreateObject("Word.Application")
     wordApp.Visible = False
 
-    If IsOoxmlTemplateFile(templatePath) Then
+    ' All templates are proper OOXML (.dotx/.docx). Open as template to get a new document.
+    If IsOoxmlFile(templatePath) Then
         Set wordDoc = wordApp.Documents.Add(templatePath)
     Else
-        Set wordDoc = wordApp.Documents.Add
-        wordDoc.Content.Text = ReadAllText(templatePath)
+        Err.Raise vbObjectError + 1201, "CreateDocumentFromTemplate", "Template is not a valid OOXML file: " & templatePath
     End If
 
     ReplaceAllMarkers wordDoc, card
@@ -80,20 +80,38 @@ ErrHandler:
 End Function
 
 Private Sub ReplaceAllMarkers(ByVal wordDoc As Object, ByVal card As clsDocumentCard)
-    ReplaceText wordDoc, "{{DocumentID}}", card.DocumentID
-    ReplaceText wordDoc, "{{DocumentType}}", card.DocumentType
-    ReplaceText wordDoc, "{{Title}}", card.Title
-    ReplaceText wordDoc, "{{AircraftNumber}}", card.AircraftNumber
-    ReplaceText wordDoc, "{{MSN}}", card.MSN
-    ReplaceText wordDoc, "{{AssemblyNumber}}", card.AssemblyNumber
-    ReplaceText wordDoc, "{{PartNumber}}", card.PartNumber
-    ReplaceText wordDoc, "{{ComponentName}}", card.ComponentName
-    ReplaceText wordDoc, "{{Revision}}", card.Revision
-    ReplaceText wordDoc, "{{Date}}", card.DocDate
-    ReplaceText wordDoc, "{{Author}}", card.Author
-    ReplaceText wordDoc, "{{Checker}}", card.Checker
-    ReplaceText wordDoc, "{{Approver}}", card.Approver
-    ReplaceText wordDoc, "{{Applicability}}", card.Applicability
+    ' Document identity
+    ReplaceText wordDoc, "{{DocumentID}}",              card.DocumentID
+    ReplaceText wordDoc, "{{Title}}",                   card.Title
+
+    ' Aircraft data
+    ReplaceText wordDoc, "{{AircraftModel}}",            card.AircraftModel
+    ReplaceText wordDoc, "{{AircraftVariant}}",          card.AircraftVariant
+    ReplaceText wordDoc, "{{AircraftNumber}}",           card.AircraftNumber
+    ReplaceText wordDoc, "{{MSN}}",                      card.MSN
+    ReplaceText wordDoc, "{{AircraftManufactureDate}}",  card.AircraftManufactureDate
+    ReplaceText wordDoc, "{{AircraftHours}}",            card.AircraftHours
+    ReplaceText wordDoc, "{{AircraftCycles}}",           card.AircraftCycles
+
+    ' Component data
+    ReplaceText wordDoc, "{{AssemblyNumber}}",           card.AssemblyNumber
+    ReplaceText wordDoc, "{{PartNumber}}",               card.PartNumber
+    ReplaceText wordDoc, "{{ComponentName}}",            card.ComponentName
+    ReplaceText wordDoc, "{{ComponentSN}}",              card.ComponentSN
+    ReplaceText wordDoc, "{{ComponentHours}}",           card.ComponentHours
+    ReplaceText wordDoc, "{{ComponentCycles}}",          card.ComponentCycles
+    ReplaceText wordDoc, "{{ComponentManufactureDate}}", card.ComponentManufactureDate
+
+    ' Document metadata
+    ReplaceText wordDoc, "{{Revision}}",                 card.Revision
+    ReplaceText wordDoc, "{{Date}}",                     card.DocDate
+    ReplaceText wordDoc, "{{DocDate}}",                  card.DocDate
+    ReplaceText wordDoc, "{{Applicability}}",            card.Applicability
+
+    ' Responsible persons
+    ReplaceText wordDoc, "{{Author}}",                   card.Author
+    ReplaceText wordDoc, "{{Checker}}",                  card.Checker
+    ReplaceText wordDoc, "{{Approver}}",                 card.Approver
 End Sub
 
 Private Sub ReplaceText(ByVal wordDoc As Object, ByVal findText As String, ByVal replaceText As String)
@@ -105,7 +123,7 @@ Private Sub ReplaceText(ByVal wordDoc As Object, ByVal findText As String, ByVal
         .Forward = True
         .Wrap = 1
         .Format = False
-        .MatchCase = False
+        .MatchCase = True
         .MatchWholeWord = False
         .MatchWildcards = False
         .Execute Replace:=2
@@ -127,7 +145,7 @@ Private Sub EnsureDirectoryExists(ByVal folderPath As String)
     End If
 End Sub
 
-Private Function IsOoxmlTemplateFile(ByVal filePath As String) As Boolean
+Private Function IsOoxmlFile(ByVal filePath As String) As Boolean
     Dim ff As Integer
     Dim sig As String
 
@@ -137,17 +155,5 @@ Private Function IsOoxmlTemplateFile(ByVal filePath As String) As Boolean
     Get #ff, 1, sig
     Close #ff
 
-    IsOoxmlTemplateFile = (sig = "PK")
-End Function
-
-Private Function ReadAllText(ByVal filePath As String) As String
-    Dim ff As Integer
-    Dim content As String
-
-    ff = FreeFile
-    Open filePath For Input As #ff
-    content = Input$(LOF(ff), #ff)
-    Close #ff
-
-    ReadAllText = content
+    IsOoxmlFile = (sig = "PK")
 End Function
