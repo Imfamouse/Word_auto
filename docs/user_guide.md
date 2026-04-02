@@ -42,3 +42,38 @@
 - **Validate** — запустить проверки и открыть `frmValidationReport`.
 - **Export PDF** — экспортировать DOCX в PDF и записать `pdf_path`.
 - **Close** — закрыть форму.
+
+### Что вводить в каждое поле `frmDocumentCard`
+
+- `Document ID` — уникальный номер документа (пример: `RI-2026-001`).
+- `Document Type` — тип документа: `Repair Instruction` или `Engineering Analysis`.
+- `Title` — краткий технический заголовок документа.
+- `Aircraft Model` — тип/модель ВС (пример: `A320`).
+- `Aircraft Number` — бортовой номер.
+- `MSN` — заводской серийный номер.
+- `Assembly Number` — номер узла/сборки.
+- `Part Number` — номер детали.
+- `Component Name` — название компонента.
+- `Applicability` — применимость (к каким бортам/условиям применимо).
+- `Revision` — ревизия документа.
+- `Date` — дата документа в формате `YYYY-MM-DD`.
+- `Author` — автор (инженер).
+- `Checker` — проверяющий.
+- `Approver` — утверждающий.
+- `Related Analysis #` — связанный номер Engineering Analysis (если есть).
+- `Related Instruction #` — связанный номер Repair Instruction (если есть).
+- `References` — ссылки на нормативные документы/руководства.
+- `Attachments` — перечень приложений/файлов.
+- `Remarks` — примечания.
+- `Status` — статус (`Draft`, `In Review`, `Released`).
+- `Word Doc Path` — путь к сгенерированному DOCX (обычно заполняется системой).
+- `PDF Path` — путь к сгенерированному PDF (обычно заполняется системой).
+
+### Что делают кнопки в форме
+
+- `Save Card` — сохраняет/обновляет карточку на листе `doc_cards`.
+- `Create DOCX` — создаёт Word-документ из шаблона и записывает `Word Doc Path`.
+- `Validate` — запускает проверки и показывает `frmValidationReport`.
+- `Export PDF` — экспортирует DOCX в PDF и записывает `PDF Path`.
+- `Close` — закрывает форму.
+- `Field Help` — показывает встроенную подсказку по всем полям и кнопкам.

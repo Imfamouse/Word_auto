@@ -26,6 +26,7 @@ Private WithEvents mBtnCreateDoc As MSForms.CommandButton
 Private WithEvents mBtnValidate As MSForms.CommandButton
 Private WithEvents mBtnExportPdf As MSForms.CommandButton
 Private WithEvents mBtnClose As MSForms.CommandButton
+Private WithEvents mBtnHelp As MSForms.CommandButton
 
 Private Sub UserForm_Initialize()
     BuildFields
@@ -130,6 +131,7 @@ Private Sub BuildDynamicLayout()
         tb.Top = topPos
         tb.Width = INPUT_W
         tb.Height = 18
+        tb.ControlTipText = GetFieldHint(mFields(i).Key)
     Next i
 
     btnTop = TOP_START + UBound(mFields) * ROW_H + BTN_TOP_GAP
@@ -164,8 +166,14 @@ Private Sub BuildDynamicLayout()
     mBtnClose.Top = btnTop
     mBtnClose.Width = 100
 
+    Set mBtnHelp = Me.Controls.Add("Forms.CommandButton.1", "btn_help", True)
+    mBtnHelp.Caption = "Field Help"
+    mBtnHelp.Left = LEFT_INPUT + 550
+    mBtnHelp.Top = btnTop
+    mBtnHelp.Width = 100
+
     Me.Caption = "Document Card"
-    Me.Width = LEFT_INPUT + INPUT_W + 24
+    Me.Width = LEFT_INPUT + INPUT_W + 140
     Me.Height = btnTop + 52
     mUiBuilt = True
 End Sub
@@ -258,6 +266,57 @@ End Sub
 Private Sub mBtnClose_Click()
     Unload Me
 End Sub
+
+Private Sub mBtnHelp_Click()
+    MsgBox BuildFieldHelpText(), vbInformation, "Field Help"
+End Sub
+
+Private Function BuildFieldHelpText() As String
+    Dim i As Long
+    Dim textOut As String
+
+    For i = 1 To UBound(mFields)
+        textOut = textOut & mFields(i).Caption & ": " & GetFieldHint(mFields(i).Key) & vbCrLf
+    Next i
+
+    textOut = textOut & vbCrLf & "Buttons:" & vbCrLf
+    textOut = textOut & "- Save Card: save card to doc_cards" & vbCrLf
+    textOut = textOut & "- Create DOCX: create Word document from template" & vbCrLf
+    textOut = textOut & "- Validate: run checks and open report" & vbCrLf
+    textOut = textOut & "- Export PDF: export current DOCX to PDF" & vbCrLf
+    textOut = textOut & "- Close: close form"
+
+    BuildFieldHelpText = textOut
+End Function
+
+Private Function GetFieldHint(ByVal fieldKey As String) As String
+    Select Case fieldKey
+        Case "document_id": GetFieldHint = "Unique document number, e.g. RI-2026-001"
+        Case "document_type": GetFieldHint = "Repair Instruction or Engineering Analysis"
+        Case "title": GetFieldHint = "Short technical title"
+        Case "aircraft_model": GetFieldHint = "Aircraft family/model, e.g. A320"
+        Case "aircraft_number": GetFieldHint = "Tail number"
+        Case "msn": GetFieldHint = "Manufacturer serial number"
+        Case "assembly_number": GetFieldHint = "Assembly identifier"
+        Case "part_number": GetFieldHint = "Part number"
+        Case "component_name": GetFieldHint = "Component common name"
+        Case "applicability": GetFieldHint = "Applicability limits/conditions"
+        Case "revision": GetFieldHint = "Revision index/letter"
+        Case "date": GetFieldHint = "Document date YYYY-MM-DD"
+        Case "author": GetFieldHint = "Engineer author"
+        Case "checker": GetFieldHint = "Checker name"
+        Case "approver": GetFieldHint = "Approver name"
+        Case "related_analysis_number": GetFieldHint = "Linked EA document number"
+        Case "related_instruction_number": GetFieldHint = "Linked RI document number"
+        Case "references": GetFieldHint = "Referenced standards/manuals"
+        Case "attachments": GetFieldHint = "Attachment file names"
+        Case "remarks": GetFieldHint = "Operational comments"
+        Case "status": GetFieldHint = "Draft, In Review, Released"
+        Case "word_doc_path": GetFieldHint = "Generated DOCX full path"
+        Case "pdf_path": GetFieldHint = "Generated PDF full path"
+        Case Else: GetFieldHint = ""
+    End Select
+End Function
 
 Private Sub LoadActiveRowIntoControls()
     Dim ws As Worksheet
