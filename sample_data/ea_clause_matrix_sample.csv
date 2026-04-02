@@ -1,0 +1,4 @@
+document_id,clause_id,clause_title,applicability_flag,means_of_compliance,covered_in_section,evidence_reference,status,comment
+EA-2026-007,CS25.571(a),Damage tolerance,Yes,Analysis,Section 4.2,CalcPack_v3.xlsx,Covered,
+EA-2026-007,CS25.571(b),Residual strength,Yes,Test + Analysis,Section 4.4,TestReport_TR-11.pdf,Partially Covered,Need final stress report
+EA-2026-007,CS25.613,Material suitability,No,,,N/A,Not Applicable,

@@ -1,0 +1,33 @@
+REPAIR INSTRUCTION TEMPLATE
+
+Title: {{Title}}
+Document ID: {{DocumentID}}
+Document Type: {{DocumentType}}
+Aircraft Number: {{AircraftNumber}}
+MSN: {{MSN}}
+Assembly Number: {{AssemblyNumber}}
+Part Number: {{PartNumber}}
+Component Name: {{ComponentName}}
+Revision: {{Revision}}
+Date: {{Date}}
+Author: {{Author}}
+Checker: {{Checker}}
+Approver: {{Approver}}
+Applicability: {{Applicability}}
+
+1. Scope
+<<Engineer writes manually>>
+
+2. References
+<<Engineer writes manually>>
+
+3. Tools and Materials
+<<Engineer writes manually>>
+
+4. Repair Procedure
+<<Engineer writes manually>>
+
+5. Post-Repair Inspection
+<<Engineer writes manually>>
+
+Footer: {{DocumentID}} | Rev {{Revision}} | {{Date}}
