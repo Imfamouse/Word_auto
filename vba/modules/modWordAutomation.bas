@@ -7,6 +7,7 @@ Public Function CreateDocumentFromTemplate(ByVal card As clsDocumentCard) As Str
     Dim templatePath As String
     Dim outputDir As String
     Dim outputDocx As String
+    Dim errText As String
 
     On Error GoTo ErrHandler
 
@@ -14,13 +15,19 @@ Public Function CreateDocumentFromTemplate(ByVal card As clsDocumentCard) As Str
     If Dir$(templatePath) = "" Then Err.Raise vbObjectError + 1200, "CreateDocumentFromTemplate", "Template file not found: " & templatePath
 
     outputDir = GetConfigValue("output_path")
-    If Dir$(outputDir, vbDirectory) = "" Then MkDir outputDir
+    EnsureDirectoryExists outputDir
 
     outputDocx = outputDir & Application.PathSeparator & BuildOutputFileName(card, "docx")
 
     Set wordApp = CreateObject("Word.Application")
     wordApp.Visible = False
-    Set wordDoc = wordApp.Documents.Add(templatePath)
+
+    If IsOoxmlTemplateFile(templatePath) Then
+        Set wordDoc = wordApp.Documents.Add(templatePath)
+    Else
+        Set wordDoc = wordApp.Documents.Add
+        wordDoc.Content.Text = ReadAllText(templatePath)
+    End If
 
     ReplaceAllMarkers wordDoc, card
     wordDoc.SaveAs2 outputDocx, WORD_FORMAT_DOCX
@@ -33,10 +40,11 @@ CleanUp:
     If Not wordApp Is Nothing Then wordApp.Quit
     Set wordDoc = Nothing
     Set wordApp = Nothing
+    If Len(errText) > 0 Then Err.Raise vbObjectError + 1299, "CreateDocumentFromTemplate", errText
     Exit Function
 
 ErrHandler:
-    CreateDocumentFromTemplate = ""
+    errText = "Failed to create DOCX. " & Err.Description
     Resume CleanUp
 End Function
 
@@ -44,6 +52,7 @@ Public Function ExportDocumentToPdf(ByVal docxPath As String) As String
     Dim wordApp As Object
     Dim wordDoc As Object
     Dim pdfPath As String
+    Dim errText As String
 
     On Error GoTo ErrHandler
 
@@ -62,10 +71,11 @@ CleanUp:
     If Not wordApp Is Nothing Then wordApp.Quit
     Set wordDoc = Nothing
     Set wordApp = Nothing
+    If Len(errText) > 0 Then Err.Raise vbObjectError + 1300, "ExportDocumentToPdf", errText
     Exit Function
 
 ErrHandler:
-    ExportDocumentToPdf = ""
+    errText = "PDF export failed. " & Err.Description
     Resume CleanUp
 End Function
 
@@ -104,4 +114,40 @@ End Sub
 
 Private Function BuildOutputFileName(ByVal card As clsDocumentCard, ByVal extensionWithoutDot As String) As String
     BuildOutputFileName = card.DocumentID & "_Rev" & card.Revision & "." & extensionWithoutDot
+End Function
+
+Private Sub EnsureDirectoryExists(ByVal folderPath As String)
+    Dim fso As Object
+
+    If Len(folderPath) = 0 Then Err.Raise vbObjectError + 1301, "EnsureDirectoryExists", "output_path is empty"
+
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    If Not fso.FolderExists(folderPath) Then
+        fso.CreateFolder folderPath
+    End If
+End Sub
+
+Private Function IsOoxmlTemplateFile(ByVal filePath As String) As Boolean
+    Dim ff As Integer
+    Dim sig As String
+
+    ff = FreeFile
+    Open filePath For Binary Access Read As #ff
+    sig = Space$(2)
+    Get #ff, 1, sig
+    Close #ff
+
+    IsOoxmlTemplateFile = (sig = "PK")
+End Function
+
+Private Function ReadAllText(ByVal filePath As String) As String
+    Dim ff As Integer
+    Dim content As String
+
+    ff = FreeFile
+    Open filePath For Input As #ff
+    content = Input$(LOF(ff), #ff)
+    Close #ff
+
+    ReadAllText = content
 End Function

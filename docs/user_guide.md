@@ -77,3 +77,15 @@
 - `Export PDF` — экспортирует DOCX в PDF и записывает `PDF Path`.
 - `Close` — закрывает форму.
 - `Field Help` — показывает встроенную подсказку по всем полям и кнопкам.
+
+### Если `Create DOCX` не создаёт Word-файл
+
+Проверьте по шагам:
+
+1. В `cfg_app` задан корректный `templates_path`.
+2. В `ref_templates` есть строка для вашего `Document Type`.
+3. Файл шаблона реально существует в `templates_path`.
+4. Для `Document Type` допустимы значения `Repair Instruction` / `Engineering Analysis` и алиасы `RI`/`EA`/`РИ`.
+5. Word установлен и доступен через COM Automation.
+
+Теперь сообщение ошибки возвращает первопричину (не только "DOCX creation failed").

@@ -49,13 +49,17 @@ Public Function GetTemplatePathByDocumentType(ByVal documentType As String) As S
     Dim rowIdx As Long
     Dim templateFile As String
     Dim basePath As String
+    Dim normalizedInput As String
+    Dim normalizedRowType As String
 
     Set ws = ThisWorkbook.Worksheets(SHEET_REF_TEMPLATES)
     basePath = GetConfigValue("templates_path")
     lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    normalizedInput = NormalizeDocumentType(documentType)
 
     For rowIdx = 2 To lastRow
-        If CStr(ws.Cells(rowIdx, 1).Value) = documentType Then
+        normalizedRowType = NormalizeDocumentType(CStr(ws.Cells(rowIdx, 1).Value))
+        If normalizedRowType = normalizedInput Then
             templateFile = CStr(ws.Cells(rowIdx, 2).Value)
             GetTemplatePathByDocumentType = basePath & Application.PathSeparator & templateFile
             Exit Function
@@ -63,4 +67,18 @@ Public Function GetTemplatePathByDocumentType(ByVal documentType As String) As S
     Next rowIdx
 
     Err.Raise vbObjectError + 1101, "GetTemplatePathByDocumentType", "Template not found for document type: " & documentType
+End Function
+
+Private Function NormalizeDocumentType(ByVal valueText As String) As String
+    Dim norm As String
+    norm = UCase$(Trim$(valueText))
+
+    Select Case norm
+        Case UCase$(DOC_TYPE_RI), "RI", "РI", "РИ", "REPAIR INSTRUCTION"
+            NormalizeDocumentType = UCase$(DOC_TYPE_RI)
+        Case UCase$(DOC_TYPE_EA), "EA", "ИНЖЕНЕРНЫЙ АНАЛИЗ", "ENGINEERING ANALYSIS"
+            NormalizeDocumentType = UCase$(DOC_TYPE_EA)
+        Case Else
+            NormalizeDocumentType = norm
+    End Select
 End Function
